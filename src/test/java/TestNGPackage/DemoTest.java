@@ -180,19 +180,19 @@ public class DemoTest
 	DriverManager driverManager;
 	
     WebDriver driver;
-    //String browser;    
-    String Browser="chrome";
+    String browser;    
+    //String Browser="chrome";
 
     @BeforeTest
     public void beforeTest() {
     	
-    	//driverManager = DriverManagerFactory.getManager(System.getProperty("Browser"));
-    	//System.out.println("Jenkin has passed following browser:" + driverManager);
+    	driverManager = DriverManagerFactory.getManager(System.getProperty(browser));
+    	System.out.println("Jenkin has passed following browser:" + driverManager);
     	
        //driverManager = DriverManagerFactory.getManager(browser);   	
     	// driverManager = DriverManagerFactory.getManager("Browser");   	
     	
-    	driverManager = DriverManagerFactory.getManager(Browser);   
+    	//driverManager = DriverManagerFactory.getManager(Browser);   
        
     }
 
