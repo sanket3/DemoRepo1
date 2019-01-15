@@ -53,11 +53,13 @@ class ChromeDriverManager extends DriverManager {
     public void startService() {
         if (null == chService) {
             try {
-                chService = new ChromeDriverService.Builder()
-                    .usingDriverExecutable(new File("C:\\Users\\Administrator.xmltest-PC\\Downloads\\chromedriver.exe"))
-                    .usingAnyFreePort()
-                    .build();
-                chService.start();
+            		
+                    chService = new ChromeDriverService.Builder()
+                                .usingDriverExecutable(new File("C:\\Users\\Administrator.xmltest-PC\\Downloads\\chromedriver.exe"))
+                                .usingAnyFreePort()
+                                .build();
+                    chService.start();
+            	
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -72,11 +74,24 @@ class ChromeDriverManager extends DriverManager {
 
     @Override
     public void createDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("test-type");
-        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-        driver = new ChromeDriver(chService, capabilities);
+    	//boolean bool = true;
+    	  boolean bool = Boolean.getBoolean(System.getProperty("headless"));
+    	if (bool == true)
+    	  {
+    		System.out.println("Opening Chrome browser in headless mode");
+    		ChromeOptions options = new ChromeOptions();
+    		options.setHeadless(true);
+    		
+    		driver = new ChromeDriver(options);
+    	  }
+        else
+          {	
+            DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("test-type");
+            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+            driver = new ChromeDriver(chService, capabilities);
+          } 
     }
 
 }
@@ -114,12 +129,27 @@ class GeckoDriverManager extends DriverManager {
   }
 
   @Override
-  public void createDriver() {
-      DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-      FirefoxOptions options = new FirefoxOptions();      
-      options.addArguments("test-type");
-      capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-      driver = new FirefoxDriver(ffService, capabilities);
+  public void createDriver() {	  
+	  
+	//boolean bool = true;
+	  boolean bool = Boolean.getBoolean(System.getProperty("headless"));
+	if (bool == true)
+	  {
+		System.out.println("Opening Firefox browser in headless mode");
+		FirefoxOptions options = new FirefoxOptions();
+		options.setHeadless(true);
+		
+		driver = new FirefoxDriver(options);
+	  }
+    else
+      {	
+    	 DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+         FirefoxOptions options = new FirefoxOptions();      
+         options.addArguments("test-type");
+         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+         driver = new FirefoxDriver(ffService, capabilities);
+      } 
+     
       
   }
 
@@ -182,12 +212,13 @@ public class DemoTest
     WebDriver driver;
     String Browser;    
     //String Browser="chrome";
+    boolean headless;
 
     @BeforeTest
     public void beforeTest() {
     	
     	driverManager = DriverManagerFactory.getManager(System.getProperty("Browser"));
-    	System.out.println("Jenkin has passed following browser:" + driverManager);
+    	System.out.println("Jenkin has passed following browser type:" + driverManager);
     	
        //driverManager = DriverManagerFactory.getManager(browser);   	
     	// driverManager = DriverManagerFactory.getManager("Browser");   	
@@ -198,6 +229,8 @@ public class DemoTest
 
     @BeforeMethod
     public void beforeMethod() {
+    	//driver = driverManager.getDriver();
+    	
         driver = driverManager.getDriver();
     }
 
