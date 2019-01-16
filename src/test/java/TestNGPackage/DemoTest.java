@@ -75,8 +75,9 @@ class ChromeDriverManager extends DriverManager {
     @Override
     public void createDriver() {
     	//boolean bool = true;
-    	  boolean bool = Boolean.getBoolean(System.getProperty("headless"));
-    	if (bool == true)
+    	 // boolean bool = Boolean.getBoolean(System.getProperty("headless"));
+    	String str = System.getProperty("mode");
+    	if (str.equals("mode"))
     	  {
     		System.out.println("Opening Chrome browser in headless mode");
     		ChromeOptions options = new ChromeOptions();
@@ -132,8 +133,8 @@ class GeckoDriverManager extends DriverManager {
   public void createDriver() {	  
 	  
 	//boolean bool = true;
-	  boolean bool = Boolean.getBoolean(System.getProperty("headless"));
-	if (bool == true)
+	  String str = System.getProperty("mode");
+  	if (str.equals("mode"))
 	  {
 		System.out.println("Opening Firefox browser in headless mode");
 		FirefoxOptions options = new FirefoxOptions();
@@ -212,7 +213,7 @@ public class DemoTest
     WebDriver driver;
     String Browser;    
     //String Browser="chrome";
-    boolean headless;
+    boolean mode;
 
     @BeforeTest
     public void beforeTest() {
